@@ -1,0 +1,20 @@
+= dataflow-poc
+2016-10-06
+
+Proof-of-Concept of data flow processes.
+
+== Main goals:
+- data flow framework set up
+- data flow framework run Python scripts
+- data flow framework manage dependencies between data processing steps
+- data flow framework can start data processing on demand or regularly
+
+== HOWTO: set up CentOS environment
+
+[source,shell]
+----
+yum install -y git
+git clone https://github.com/vuzoll/dataflow-poc
+git pull origin feature/1
+sh dataflow-poc/setup-env/setup-centos
+----
