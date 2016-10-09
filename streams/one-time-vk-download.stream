@@ -1,1 +1,1 @@
-htpp | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py' --bufferSize=1000000 | file --name=vk
+htpp | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'
