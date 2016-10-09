@@ -1,1 +1,0 @@
-http | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py' | log
