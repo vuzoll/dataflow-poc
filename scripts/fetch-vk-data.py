@@ -109,14 +109,11 @@ def persist_execution_state():
 
 def load_execution_state():
     global processed_friend_ids, queue
-    try:
-        execution_state_file = open(EXECUTION_STATE_FILE, 'r')
-        execution_state = json.load(execution_state_file)
-        processed_friend_ids, queue = execution_state
-        processed_friend_ids = set(processed_friend_ids)
-        execution_state_file.close()
-    except IOError:
-        # print >> sys.stderr, 'execution state does not exist'
+    execution_state_file = open(EXECUTION_STATE_FILE, 'r')
+    execution_state = json.load(execution_state_file)
+    processed_friend_ids, queue = execution_state
+    processed_friend_ids = set(processed_friend_ids)
+    execution_state_file.close()
 
 
 parser = argparse.ArgumentParser('Fetching university data from vk')
