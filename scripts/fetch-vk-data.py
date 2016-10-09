@@ -76,7 +76,6 @@ def process_all_friends_data(node_id):
     friends = trim_user_data(friends)
     for item in friends:
         send(json.dumps(item))
-        eod()
 
     return ids
 
@@ -90,10 +89,10 @@ def crawl_graph(start_node_id, process_data_and_get_ids_fn):
         queue = [(start_node_id, 0)]
     while len(queue) > 0:
         node_id, cur_depth = queue[0]
-        # print >> sys.stderr, 'started processing of', node_id, 'on depth', cur_depth
+        print >> sys.stderr, 'started processing of', node_id, 'on depth', cur_depth
         queue = queue[1:]
         new_node_ids = process_data_and_get_ids_fn(node_id)
-        # print >> sys.stderr, 'new ids count:', len(new_node_ids), 'total ids count:', len(processed_friend_ids)
+        print >> sys.stderr, 'new ids count:', len(new_node_ids), 'total ids count:', len(processed_friend_ids)
         queue += zip(new_node_ids, [cur_depth + 1 for _ in range(len(new_node_ids))])
         if TIMER_SEC is not None and time.time() - start_time > TIMER_SEC:
             break
@@ -109,11 +108,14 @@ def persist_execution_state():
 
 def load_execution_state():
     global processed_friend_ids, queue
-    execution_state_file = open(EXECUTION_STATE_FILE, 'r')
-    execution_state = json.load(execution_state_file)
-    processed_friend_ids, queue = execution_state
-    processed_friend_ids = set(processed_friend_ids)
-    execution_state_file.close()
+    try:
+        execution_state_file = open(EXECUTION_STATE_FILE, 'r')
+        execution_state = json.load(execution_state_file)
+        processed_friend_ids, queue = execution_state
+        processed_friend_ids = set(processed_friend_ids)
+        execution_state_file.close()
+    except IOError:
+        print >> sys.stderr, 'execution state does not exist'
 
 
 parser = argparse.ArgumentParser('Fetching university data from vk')
@@ -128,10 +130,11 @@ if args['time'] is not None:
 
 while True:
     try:
-        # print >> sys.stderr, 'waiting for timer param in stdin'
+        print >> sys.stderr, 'waiting for timer param in stdin'
         TIMER_SEC = int(raw_input())
         load_execution_state()
         crawl_graph(START_NODE, process_all_friends_data)
+        eod()
     except Exception:
         persist_execution_state()
     else:
