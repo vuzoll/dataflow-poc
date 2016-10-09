@@ -11,7 +11,6 @@ FIELDS_TO_REMOVE = ['uid', 'first_name', 'last_name', 'hidden']
 NECESSARY_FIELDS = ['career', 'universities', 'education', 'occupation',
                     'university_name', 'university', 'faculty_name', 'faculty']
 EXECUTION_STATE_FILE = 'EXECUTION_STATE1'
-DEPTH = 2
 TIMER_SEC = None
 
 queue = []
@@ -75,7 +74,7 @@ def process_all_friends_data(node_id):
     return ids
 
 
-def crawl_graph(start_node_id, depth, process_data_and_get_ids_fn):
+def crawl_graph(start_node_id, process_data_and_get_ids_fn):
     global queue, TIMER_SEC
 
     start_time = time.time()
@@ -84,8 +83,6 @@ def crawl_graph(start_node_id, depth, process_data_and_get_ids_fn):
         queue = [(start_node_id, 0)]
     while len(queue) > 0:
         node_id, cur_depth = queue[0]
-        if cur_depth >= depth:
-            return
         print >> sys.stderr, 'started processing of', node_id, 'on depth', cur_depth
         queue = queue[1:]
         new_node_ids = process_data_and_get_ids_fn(node_id)
@@ -116,13 +113,10 @@ def load_execution_state():
 
 
 parser = argparse.ArgumentParser('Fetching university data from vk')
-parser.add_argument('--depth', help='depth of the parsing')
 parser.add_argument('--node', help='start node id')
 parser.add_argument('--time', help='how long script should be executed in sec')
 args = vars(parser.parse_args())
 
-if args['depth'] is not None:
-    DEPTH = int(args['depth'])
 if args['node'] is not None:
     START_NODE = int(args['node'])
 if args['time'] is not None:
@@ -133,7 +127,7 @@ while True:
         print >> sys.stderr, 'waiting for timer param in stdin'
         TIMER_SEC = int(raw_input())
         load_execution_state()
-        crawl_graph(START_NODE, DEPTH, process_all_friends_data)
+        crawl_graph(START_NODE, process_all_friends_data)
     except Exception:
         persist_execution_state()
     else:
