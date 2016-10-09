@@ -15,6 +15,7 @@ Proof-of-Concept of data flow processes.
 ----
 yum install -y git
 git clone https://github.com/vuzoll/dataflow-poc
+cd dataflow-poc
 git pull origin develop
-sh dataflow-poc/setup-env/setup-centos
+sh setup-env/setup-centos
 ----
