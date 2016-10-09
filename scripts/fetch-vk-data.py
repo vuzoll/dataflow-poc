@@ -58,6 +58,12 @@ def trim_user_data(user_data):
 
     return user_data
 
+def send(data):
+  sys.stdout.write(data)
+  sys.stdout.flush()
+
+def eod():
+  send("\r\n")
 
 def process_all_friends_data(node_id):
     global processed_friend_ids, REQUEST_FIELDS
@@ -69,7 +75,8 @@ def process_all_friends_data(node_id):
     friends = purge_user_data(friends)
     friends = trim_user_data(friends)
     for item in friends:
-        print json.dumps(item), "\r"
+        send(json.dumps(item))
+        eod()
 
     return ids
 
