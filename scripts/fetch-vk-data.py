@@ -12,6 +12,7 @@ NECESSARY_FIELDS = ['career', 'universities', 'education', 'occupation',
                     'university_name', 'university', 'faculty_name', 'faculty']
 EXECUTION_STATE_FILE = 'EXECUTION_STATE1'
 TIMER_SEC = None
+OUTPUT_FILE = 'UNIVERSITY_DATA1'
 
 queue = []
 
@@ -58,15 +59,9 @@ def trim_user_data(user_data):
 
     return user_data
 
-def send(data):
-  sys.stdout.write(data)
-  sys.stdout.flush()
-
-def eod():
-  send("\r\n")
 
 def process_all_friends_data(node_id):
-    global processed_friend_ids, REQUEST_FIELDS
+    global processed_friend_ids, REQUEST_FIELDS, OUTPUT_FILE
     friends = fetch_all_friends_data(node_id, REQUEST_FIELDS)
     friends = [item for item in friends if item['user_id'] not in processed_friend_ids]
     ids = [item['user_id'] for item in friends]
@@ -74,8 +69,11 @@ def process_all_friends_data(node_id):
         processed_friend_ids.add(cur_id)
     friends = purge_user_data(friends)
     friends = trim_user_data(friends)
+    university_data_file = open(OUTPUT_FILE, 'a')
     for item in friends:
-        send(json.dumps(item))
+        university_data_file.write(json.dumps(item))
+        university_data_file.write('\n')
+    university_data_file.close()
 
     return ids
 
@@ -118,15 +116,20 @@ def load_execution_state():
         print >> sys.stderr, 'execution state does not exist'
 
 
+def eod():
+    sys.stdout.write("\r\n")
+    sys.stdout.flush()
+
+
 parser = argparse.ArgumentParser('Fetching university data from vk')
 parser.add_argument('--node', help='start node id')
-parser.add_argument('--time', help='how long script should be executed in sec')
+parser.add_argument('--file', help='output file')
 args = vars(parser.parse_args())
 
 if args['node'] is not None:
     START_NODE = int(args['node'])
-if args['time'] is not None:
-    TIMER_SEC = int(args['time'])
+if args['file'] is not None:
+    OUTPUT_FILE = str(args['file'])
 
 while True:
     try:
@@ -134,8 +137,9 @@ while True:
         TIMER_SEC = int(raw_input())
         load_execution_state()
         crawl_graph(START_NODE, process_all_friends_data)
-        eod()
     except Exception:
         persist_execution_state()
+        eod()
     else:
         persist_execution_state()
+        eod()
