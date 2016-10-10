@@ -1,0 +1,59 @@
+= dataflow-poc
+2016-10-06
+
+Proof-of-Concept of data flow processes.
+
+== Main goals:
+- data flow framework set up
+- data flow framework run Python scripts
+- data flow framework manage dependencies between data processing steps
+- data flow framework can start data processing on demand or regularly
+
+== HOWTO: set up CentOS environment
+
+[source,shell]
+----
+yum install -y git
+git clone https://github.com/vuzoll/dataflow-poc
+cd dataflow-poc
+git pull origin develop
+sh setup-env/setup-centos
+----
+
+== HOWTO: set up data flows
+
+[source,shell]
+.Start server in one session
+----
+sh $VUZOLL_HOME/spring-xd/start-server
+----
+
+[source,shell]
+.Start client in another session
+----
+sh $VUZOLL_HOME/spring-xd/start-client
+
+xd:> stream create --name one-time-vk-download --definition "<COPY FROM streams/one-time-vk-download.stream>" --deploy
+
+xd:> stream create --name regular-vk-download --definition "<COPY FROM streams/regular-vk-download.stream>" --deploy
+----
+
+[source,shell]
+.Invoke one time vk data download
+----
+sh $VUZOLL_HOME/spring-xd/start-client
+
+xd:> http post --target http://localhost:9000 --data "1"
+----
+
+[source,shell]
+.Dispose data flows
+----
+sh $VUZOLL_HOME/spring-xd/start-client
+
+xd:> stream undeploy one-time-vk-download
+xd:> stream destroy one-time-vk-download
+
+xd:> stream undeploy regular-vk-download
+xd:> stream destroy regular-vk-download
+----
