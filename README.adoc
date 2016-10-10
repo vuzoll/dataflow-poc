@@ -33,9 +33,9 @@ sh $VUZOLL_HOME/spring-xd/start-server
 ----
 sh $VUZOLL_HOME/spring-xd/start-client
 
-xd:> stream create one-time-vk-download --definition="<COPY FROM streams/one-time-vk-download.stream>" --deploy
+xd:> stream create --name one-time-vk-download --definition "<COPY FROM streams/one-time-vk-download.stream>" --deploy
 
-xd:> stream create regular-vk-download --definition="<COPY FROM streams/regular-vk-download.stream>" --deploy
+xd:> stream create --name regular-vk-download --definition "<COPY FROM streams/regular-vk-download.stream>" --deploy
 ----
 
 [source,shell]
