@@ -1,1 +1,1 @@
-htpp | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'
+http | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'
