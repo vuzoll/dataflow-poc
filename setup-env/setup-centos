@@ -27,6 +27,7 @@ unzip spring-xd-1.3.1.RELEASE-dist.zip
 rm spring-xd-1.3.1.RELEASE-dist.zip
 
 echo 'Setting Spring XD up...'
+export XD_HOME="$CURRENT_DIR/spring-xd-1.3.1.RELEASE/xd/"
 echo "export XD_HOME=$CURRENT_DIR/spring-xd-1.3.1.RELEASE/xd/" >> ~/.bashrc
 
 cd $INITIAL_DIR
