@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+$XD_HOME/bin/xd-singlenode
