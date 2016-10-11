@@ -1,1 +1,1 @@
-http | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'
+http --port=2801 | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'

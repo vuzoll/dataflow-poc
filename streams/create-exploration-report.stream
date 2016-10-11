@@ -1,0 +1,1 @@
+http --port=2802  | shell --command='python /root/dataflow-poc/scripts/exploration-report.py --input=/root/data/vk.data --output=/root/data/exploration-report.txt'
