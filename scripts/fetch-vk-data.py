@@ -10,9 +10,9 @@ START_NODE = 11582866 # me
 FIELDS_TO_REMOVE = ['uid', 'first_name', 'last_name', 'hidden']
 NECESSARY_FIELDS = ['career', 'universities', 'education', 'occupation',
                     'university_name', 'university', 'faculty_name', 'faculty']
-EXECUTION_STATE_FILE = 'EXECUTION_STATE1'
+EXECUTION_STATE_FILE = '/root/data/fetch-vk-data.state'
 TIMER_SEC = None
-OUTPUT_FILE = 'UNIVERSITY_DATA1'
+OUTPUT_FILE = '/root/data/vk.data'
 
 queue = []
 
