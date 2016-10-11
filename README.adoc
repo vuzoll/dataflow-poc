@@ -45,7 +45,7 @@ xd:> stream create --name exploration-report --definition "<COPY FROM streams/ex
 ----
 sh $VUZOLL_HOME/spring-xd/start-client
 
-xd:> http post --target http://localhost:2801 --data "1"
+xd:> http post --target http://localhost:2801 --data "60"
 
 wc /root/data/vk.data
 ----
@@ -55,7 +55,7 @@ wc /root/data/vk.data
 ----
 sh $VUZOLL_HOME/spring-xd/start-client
 
-xd:> http post --target http://localhost:2802
+xd:> http post --target http://localhost:2802 --data "0"
 
 cat /root/data/exploration-report.txt
 ----
