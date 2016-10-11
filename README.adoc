@@ -1,5 +1,5 @@
 = dataflow-poc
-2016-10-06
+2016-10-12
 
 Proof-of-Concept of data flow processes.
 
@@ -36,6 +36,8 @@ sh $VUZOLL_HOME/spring-xd/start-client
 xd:> stream create --name one-time-vk-download --definition "<COPY FROM streams/one-time-vk-download.stream>" --deploy
 
 xd:> stream create --name regular-vk-download --definition "<COPY FROM streams/regular-vk-download.stream>" --deploy
+
+xd:> stream create --name exploration-report --definition "<COPY FROM streams/exploration-report.stream>" --deploy
 ----
 
 [source,shell]
@@ -43,7 +45,19 @@ xd:> stream create --name regular-vk-download --definition "<COPY FROM streams/r
 ----
 sh $VUZOLL_HOME/spring-xd/start-client
 
-xd:> http post --target http://localhost:9000 --data "1"
+xd:> http post --target http://localhost:2801 --data "1"
+
+wc /root/data/vk.data
+----
+
+[source,shell]
+.Invoke exploration report generation
+----
+sh $VUZOLL_HOME/spring-xd/start-client
+
+xd:> http post --target http://localhost:2802
+
+cat /root/data/exploration-report.txt
 ----
 
 [source,shell]
@@ -56,4 +70,7 @@ xd:> stream destroy one-time-vk-download
 
 xd:> stream undeploy regular-vk-download
 xd:> stream destroy regular-vk-download
+
+xd:> stream undeploy exploration-report
+xd:> stream destroy exploration-report
 ----
