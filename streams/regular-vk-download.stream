@@ -1,1 +1,1 @@
-trigger --fixedDelay=20 --payload='1' | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'
+trigger --fixedDelay=200 --payload='60' | shell --command='python /root/dataflow-poc/scripts/fetch-vk-data.py --file=/root/data/vk.data'
