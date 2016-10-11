@@ -18,7 +18,7 @@ parser.add_argument('--output', help='output file with exploration report')
 args = vars(parser.parse_args())
 
 if args['input'] is not None:
-    INPUT_FILE = int(args['input'])
+    INPUT_FILE = str(args['input'])
 if args['output'] is not None:
     OUTPUT_FILE = str(args['output'])
 
